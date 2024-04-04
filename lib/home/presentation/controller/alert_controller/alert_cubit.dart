@@ -45,7 +45,7 @@ class AlertCubit extends Cubit<AlertStates> {
     emit(UploadImageLoadingState());
 
     var data = FormData.fromMap({
-      'files': [
+      'img': [
         await MultipartFile.fromFile(
           imagePath!,
           filename: imagePath!.split('/').last,
