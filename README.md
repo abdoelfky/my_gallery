@@ -1,11 +1,9 @@
 # my_gallery
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
+Task Details
+User will login to the application using ( login api )
+user will show his/her gallery images using ( my gallery api)
+user can upload new image in his/her gallery using (upload api)
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
