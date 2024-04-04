@@ -1,13 +1,9 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_gallery/auth/presentation/controller/login_controller/login_cubit.dart';
-import 'package:my_gallery/home/presentation/controller/login_controller/home_cubit.dart';
-import 'package:my_gallery/shared/bloc_observer.dart';
-import 'package:my_gallery/shared/local/shared_preference.dart';
-import 'package:my_gallery/shared/network/dio_helper.dart';
+import 'package:my_gallery/home/presentation/controller/alert_controller/alert_cubit.dart';
+import 'package:my_gallery/home/presentation/controller/home_controller/home_cubit.dart';
 import 'package:my_gallery/shared/resources/app_strings.dart';
 import 'package:my_gallery/shared/resources/routes_manager.dart';
 import 'package:my_gallery/shared/resources/theme_manager.dart';
@@ -23,7 +19,8 @@ class MyApp extends StatelessWidget {
         providers:
         [
           BlocProvider(create: (BuildContext context) =>LoginCubit()),
-          BlocProvider(create: (BuildContext context) =>HomeCubit()),
+          BlocProvider(create: (BuildContext context) =>HomeCubit()..fetchData()),
+          BlocProvider(create: (BuildContext context) =>AlertCubit()),
 
 
 
@@ -35,6 +32,7 @@ class MyApp extends StatelessWidget {
           onGenerateRoute: RouteGenerator.getRoute,
           theme: lightTheme,
           title: AppStrings.appTitle,
+
         )
     );
 

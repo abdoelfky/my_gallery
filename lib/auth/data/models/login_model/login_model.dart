@@ -1,45 +1,102 @@
 class LoginModel {
-  String? userId;
-  Null? message;
-  bool? isAuthenticated;
-  String? username;
-  String? email;
-  List<String>? roles;
-  String? token;
-  String? expiresOn;
+  User? _user;
+  String? _token;
   String? profilePicturePath;
+  LoginModel({User? user, String? token}) {
+    if (user != null) {
+      _user = user;
+    }
+    if (token != null) {
+      _token = token;
+    }
+  }
 
-  LoginModel(
-      {this.userId,
-        this.message,
-        this.isAuthenticated,
-        this.username,
-        this.email,
-        this.roles,
-        this.token,
-        this.expiresOn});
+  User? get user => _user;
+  set user(User? user) => _user = user;
+  String? get token => _token;
+  set token(String? token) => _token = token;
 
   LoginModel.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
-    message = json['message'];
-    isAuthenticated = json['isAuthenticated'];
-    username = json['username'];
-    email = json['email'];
-    roles = json['roles'].cast<String>();
-    token = json['token'];
-    expiresOn = json['expiresOn'];
+    _user = json['user'] != null ? User.fromJson(json['user']) : null;
+    _token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['userId'] = userId;
-    data['message'] = message;
-    data['isAuthenticated'] = isAuthenticated;
-    data['username'] = username;
-    data['email'] = email;
-    data['roles'] = roles;
-    data['token'] = token;
-    data['expiresOn'] = expiresOn;
+    if (_user != null) {
+      data['user'] = _user!.toJson();
+    }
+    data['token'] = _token;
+    return data;
+  }
+}
+
+class User {
+  int? _id;
+  String? _name;
+  String? _email;
+  String? _emailVerifiedAt;
+  String? _createdAt;
+  String? _updatedAt;
+
+  User(
+      {int? id,
+        String? name,
+        String? email,
+        String? emailVerifiedAt,
+        String? createdAt,
+        String? updatedAt}) {
+    if (id != null) {
+      _id = id;
+    }
+    if (name != null) {
+      _name = name;
+    }
+    if (email != null) {
+      _email = email;
+    }
+    if (emailVerifiedAt != null) {
+      _emailVerifiedAt = emailVerifiedAt;
+    }
+    if (createdAt != null) {
+      _createdAt = createdAt;
+    }
+    if (updatedAt != null) {
+      _updatedAt = updatedAt;
+    }
+  }
+
+  int? get id => _id;
+  set id(int? id) => _id = id;
+  String? get name => _name;
+  set name(String? name) => _name = name;
+  String? get email => _email;
+  set email(String? email) => _email = email;
+  String? get emailVerifiedAt => _emailVerifiedAt;
+  set emailVerifiedAt(String? emailVerifiedAt) =>
+      _emailVerifiedAt = emailVerifiedAt;
+  String? get createdAt => _createdAt;
+  set createdAt(String? createdAt) => _createdAt = createdAt;
+  String? get updatedAt => _updatedAt;
+  set updatedAt(String? updatedAt) => _updatedAt = updatedAt;
+
+  User.fromJson(Map<String, dynamic> json) {
+    _id = json['id'];
+    _name = json['name'];
+    _email = json['email'];
+    _emailVerifiedAt = json['email_verified_at'];
+    _createdAt = json['created_at'];
+    _updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = _id;
+    data['name'] = _name;
+    data['email'] = _email;
+    data['email_verified_at'] = _emailVerifiedAt;
+    data['created_at'] = _createdAt;
+    data['updated_at'] = _updatedAt;
     return data;
   }
 }

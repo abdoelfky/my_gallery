@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_gallery/shared/resources/assets_manager.dart';
-import 'package:my_gallery/shared/resources/color_manager.dart';
 import 'package:my_gallery/shared/resources/values_manager.dart';
 
 class GridViewComponent extends StatelessWidget {
-  const GridViewComponent({super.key});
+  GridViewComponent({
+    super.key,
+    required this.images,
+  });
+
+  final List<String> images;
 
   @override
   Widget build(BuildContext context) {
@@ -14,19 +17,20 @@ class GridViewComponent extends StatelessWidget {
         crossAxisSpacing: AppPadding.p15,
         physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
-        // Create a grid with 2 columns. If you change the scrollDirection to
-        // horizontal, this produces 2 rows.
+        // Create a grid with 3 columns. If you change the scrollDirection to
         crossAxisCount: 3,
-        // Generate 100 widgets that display their index in the List.
-        children: List.generate(100, (index) {
+        children: List.generate(images.length, (index) {
           return Center(
-              child: Container(
-                width: mediaQueryWidth(context) / AppSize.s1_5,
-                height: mediaQueryHeight(context) / AppSize.s8,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(AppSize.s30),
-                    child: Image(image: AssetImage(ImageAssets.test,),fit: BoxFit.cover,)),
-              ));
+              child: SizedBox(
+            width: mediaQueryWidth(context) / AppSize.s1_5,
+            height: mediaQueryHeight(context) / AppSize.s8,
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(AppSize.s30),
+                child: Image.network(
+                    images[index],
+                  fit: BoxFit.cover,
+                )),
+          ));
         }),
       ),
     );

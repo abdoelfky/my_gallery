@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:my_gallery/auth/data/models/login_model/login_model.dart';
 import 'package:my_gallery/shared/local/shared_preference.dart';
 import 'package:my_gallery/shared/network/api_constants.dart';
 import 'package:my_gallery/shared/network/dio_helper.dart';
+import 'package:my_gallery/shared/resources/app_strings.dart';
 import 'package:my_gallery/shared/resources/constants_manager.dart';
 
 import 'login_states.dart';
@@ -21,36 +23,32 @@ class LoginCubit extends Cubit<LoginStates> {
     required String password,
   }) async {
     emit(LoginLoadingState());
-    await DioHelper.postData(
+    await DioHelper.postDataFromFormData(
       url: ApiConstants.login,
-      data: {"email": email, "password": password},
+      data: FormData.fromMap({
+        'email': email,
+        'password': password
+      }),
     ).then((value) {
       print(value.data.toString());
-
       loginModel = LoginModel.fromJson(value.data);
-      CacheHelper.setData(key: AppConstants.userId, value: loginModel!.userId);
-      CacheHelper.setData(key: AppConstants.token, value: loginModel!.token);
       CacheHelper.setData(
-          key: AppConstants.userName, value: loginModel!.username);
-      if (loginModel!.roles!.first.toLowerCase() == 'user') {
-        emit(LoginSuccessState(loginModel!));
-      } else {
-        emit(LoginErrorState('غير مسموح بتسجيل دخول هذا المستخدم'));
-      }
+          key: AppConstants.userId, value: loginModel!.user!.id);
+      CacheHelper.setData(key: AppConstants.token, value: loginModel!.token);
+      CacheHelper.setData(key: AppConstants.userName, value: loginModel!.user!.name);
+      emit(LoginSuccessState(loginModel!));
     }).catchError((error) {
       print(error.toString());
-      emit(LoginErrorState('كلمه المرور او البريد الالكتروني خطأ'));
+      emit(LoginErrorState(AppStrings.loginError));
     });
   }
 
-  bool isObsecured=true;
+  bool isObsecured = true;
 
-  void changeVisibility()
-  {
-    isObsecured=!isObsecured;
+  void changeVisibility() {
+    isObsecured = !isObsecured;
     emit(ChangeVisibilityState(isObsecured));
   }
-
 
   IconData suffix = Icons.visibility_outlined;
   bool isPassword = true;
@@ -58,9 +56,8 @@ class LoginCubit extends Cubit<LoginStates> {
   void changePasswordVisibility() {
     isPassword = !isPassword;
     suffix =
-    isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+        isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
 
     emit(ChangePasswordVisibilityState(isPassword));
   }
-
 }

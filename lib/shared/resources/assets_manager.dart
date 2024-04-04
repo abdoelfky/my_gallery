@@ -10,6 +10,8 @@ class ImageAssets {
   static const String leftArrowIcon  = '$IMAGE_PATH/leftArrow.png';
   static const String upArrowIcon  = '$IMAGE_PATH/upArrow.png';
   static const String test  = '$IMAGE_PATH/test.png';
+  static const String gallery  = '$IMAGE_PATH/gallery.png';
+  static const String camera  = '$IMAGE_PATH/camera.png';
 
 
 

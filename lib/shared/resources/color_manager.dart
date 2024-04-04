@@ -15,6 +15,7 @@ class ColorManager
   static const Color yellow = Color(0xFFF9D923);
   static const Color lightYellow = Color(0xFFFFEB38);
   static const Color darkYellow = Color(0xFFFF9900);
+  static const Color move = Color(0xFFEFD8F9);
 
 
 

@@ -35,18 +35,15 @@ class LoginView extends StatelessWidget {
       body: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {
           if (state is LoginSuccessState) {
-            if (state.loginModel.roles![0].toString().toUpperCase() == 'USER') {
               showToast(text: 'Login Successfully', state: ToastStates.SUCCESS);
+              _emailController.text = '';
+              _passwordController.text = '';
               navigateFinalTo(
                   context: context, screenRoute: Routes.homeScreenRoute);
-            } else {
-              showToast(
-                  text: 'This User Can\'t Access', state: ToastStates.ERROR);
-            }
+
           } else if (state is LoginErrorState) {
-            showToast(text: '${state.error}', state: ToastStates.ERROR);
-            navigateFinalTo(
-                context: context, screenRoute: Routes.homeScreenRoute);
+            showToast(text: state.error, state: ToastStates.ERROR);
+
           }
         },
         builder: (context, state) {
